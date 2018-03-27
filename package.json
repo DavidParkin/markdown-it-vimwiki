@@ -2,7 +2,7 @@
   "name": "markdown-it-vimwiki",
   "version": "1.1.1",
   "description": "Plugin to create vimwiki links [[]] for markdown-it markdown parser",
-  "repository": "mcecot/markdown-it-vimwiki",
+  "repository": "DavidParkin/markdown-it-vimwiki",
   "license": "MIT",
   "scripts": {
     "prepublish": "gulp coffee --require coffee-script/register",

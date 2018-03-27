@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 var _, vimwikiReplace;
 
 _ = require('underscore');
@@ -15,55 +15,53 @@ vimwikiReplace = function (md, options, Token) {
 	options = _.extend(defaults, options);
 	pattern = /\[{2}(\w+)((\|)(\w+))?\]{2}/i;
 
-createTokens = function (checked, label, linkText, Token) {
-	var nodes, token;
-	nodes = [];
+	createTokens = function (checked, linkUrl, linkText, Token) {
+		var nodes, token;
+		nodes = [];
 
-	var fullUrl = 'fullUrl';
-	var urlText = 'urlText';
-	var urlText = label;
-	if (typeof linkText !== 'undefined') {
-		urlText = linkText;
-	} else {
-		urlText = label;
-	}
-	fullUrl = './' + label + '.html';
+		var fullUrl = 'fullUrl';
+		var urlText = linkUrl;
+		if (typeof linkText !== 'undefined') {
+			urlText = linkText;
+		} else {
+			urlText = linkUrl;
+		}
+		fullUrl = './' + linkUrl + '.html';
 
-	token         = new Token('link_open', 'a', 1);
-	token.attrs   = [ [ 'href', fullUrl ] ];
-	//token.level   = level++;
-	token.markup  = 'linkify';
-	token.info    = 'auto';
-	nodes.push(token);
+		token         = new Token('link_open', 'a', 1);
+		token.attrs   = [ [ 'href', fullUrl ] ];
+		//token.level   = level++;
+		token.markup  = 'linkify';
+		token.info    = 'auto';
+		nodes.push(token);
 
-	token         = new Token('text', '', 0);
-	token.content = urlText;
-	//token.level   = level;
-	nodes.push(token);
+		token         = new Token('text', '', 0);
+		token.content = urlText;
+		//token.level   = level;
+		nodes.push(token);
 
-	token         = new Token('link_close', 'a', -1);
-	//token.level   = --level;
-	token.markup  = 'linkify';
-	token.info    = 'auto';
-	nodes.push(token);
+		token         = new Token('link_close', 'a', -1);
+		//token.level   = --level;
+		token.markup  = 'linkify';
+		token.info    = 'auto';
+		nodes.push(token);
 
-	return nodes;
+		return nodes;
 	};
-splitTextToken = function (original, Token) {
-	var checked, label, matches, text, linkText, value;
-	text = original.content;
+	splitTextToken = function (original, Token) {
+		var checked, linkUrl, matches, text, linkText;
+		text = original.content;
 
-	matches = text.match(pattern);
-	debugger;
-	if (matches === null) {
-	return original;
-	}
-	checked = false;
-	label = matches[1];
-	linkText = matches[4];
-	//label = matches[2];
-	return createTokens(checked, label, linkText, Token);
-};
+		matches = text.match(pattern);
+		debugger;
+		if (matches === null) {
+			return original;
+		}
+		checked = false;
+		linkUrl = matches[1];
+		linkText = matches[4];
+		return createTokens(checked, linkUrl, linkText, Token);
+	};
 	return function (state) {
 		var blockTokens, i, j, l, token, tokens;
 		blockTokens = state.tokens;

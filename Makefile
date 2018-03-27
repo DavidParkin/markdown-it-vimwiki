@@ -24,6 +24,9 @@ test-ci: lint
 	istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage
 
 browserify:
+	@echo $(NPM_PACKAGE)
+	@echo $(NPM_VERSION)
+	@echo $(GITHUB_PROJ)
 	rm -rf ./dist
 	mkdir dist
 	# Browserify
@@ -31,8 +34,8 @@ browserify:
 		browserify ./ -s markdownitVimwiki \
 		) > dist/markdown-it-vimwiki.js
 	# Minify
-	./node_modules/.bin/uglifyjs dist/markdown-it-vimwiki.js -b beautify=false,ascii-only=true -c -m \
-		--preamble "/*! ${NPM_PACKAGE} ${NPM_VERSION} ${GITHUB_PROJ} @license MIT */" \
+	uglifyjs dist/markdown-it-vimwiki.js -b beautify=false,ascii_only=true,preamble="'/*! ${NPM_PACKAGE} ${NPM_VERSION} ${GITHUB_PROJ} @license MIT */'" \
+		-c -m \
 		> dist/markdown-it-vimwiki.min.js
 
 .PHONY: lint test coverage
