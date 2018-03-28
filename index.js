@@ -13,7 +13,7 @@ vimwikiReplace = function (md, options, Token) {
 		idPrefix: 'vimwiki'
 	};
 	options = _.extend(defaults, options);
-	pattern = /\[{2}(\w+)((\|)(\w+))?\]{2}/i;
+	pattern = /\[\[([\w ]*)+(\|)?(\w+)?\]\]/;
 
 	createTokens = function (checked, linkUrl, linkText, Token) {
 		var nodes, token;
@@ -26,7 +26,7 @@ vimwikiReplace = function (md, options, Token) {
 		} else {
 			urlText = linkUrl;
 		}
-		fullUrl = './' + linkUrl + '.html';
+		fullUrl = './' + linkUrl + '.wiki';
 
 		token         = new Token('link_open', 'a', 1);
 		token.attrs   = [ [ 'href', fullUrl ] ];
