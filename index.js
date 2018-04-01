@@ -13,13 +13,12 @@ vimwikiReplace = function (md, options, Token) {
 		idPrefix: 'vimwiki'
 	};
 	options = _.extend(defaults, options);
-	pattern = /\[\[([\w ]*)+(\|)?(\w+)?\]\]/;
+	pattern = /\[\[([A-Za-z1-9 ]+)?\|?(\w+)?/;
 
 	createTokens = function (checked, linkUrl, linkText, Token) {
-		var nodes, token;
+		var nodes, token, fullUrl;
 		nodes = [];
 
-		var fullUrl = 'fullUrl';
 		var urlText = linkUrl;
 		if (typeof linkText !== 'undefined') {
 			urlText = linkText;
@@ -77,7 +76,9 @@ vimwikiReplace = function (md, options, Token) {
 			i = tokens.length - 1;
 			while (i >= 0) {
 				token = tokens[i];
-				blockTokens[j].children = tokens = arrayReplaceAt(tokens, i, splitTextToken(token, state.Token));
+				if (token.type != "code_inline") {
+					blockTokens[j].children = tokens = arrayReplaceAt(tokens, i, splitTextToken(token, state.Token));
+				}
 				i--;
 			}
 			j++;

@@ -24,17 +24,16 @@ var md = require('markdown-it')()
             .use(require('markdown-it-vimwiki'));
 
 md.render('[[link]]') // =>
-// <p>
-//  <input type="vimwiki" id="vimwiki0">
-//  <label for="vimwiki0">unchecked</label>
-// </p>
+// 
+//  <a href="./link.wiki">link</a></p>>
+//
 
-md.render('[x] checked') // =>
-// <p>
-//  <input type="vimwiki" id="vimwiki0" checked="true">
-//  <label for="vimwiki0">checked</label>
-// </p>
+md.render('[[link|text]]') // =>
+// 
+//  <a href="./link.wiki">text</a></p>>
+// 
 ```
+
 
 _Differences in browser._ If you load script directly into the page, without
 package system, module will add itself globally as `window.markdownitVimwiki`.
