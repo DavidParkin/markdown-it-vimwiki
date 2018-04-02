@@ -43,18 +43,9 @@ package system, module will add itself globally as `window.markdownitVimwiki`.
 ```js
 var md = require('markdown-it')()
             .use(require('markdown-it-vimwiki'),{
-              divWrap: true,
-              divClass: 'cb',
-              idPrefix: 'cbx_'
+              suffix: 'wiki'
             });
 
-md.render('[ ] unchecked') // =>
-// <p>
-//  <div classname="cb">
-//    <input type="vimwiki" id="cbx_0">
-//    <label for="cbx_0">unchecked</label>
-//  </div>
-// </p>
 ```
 
 

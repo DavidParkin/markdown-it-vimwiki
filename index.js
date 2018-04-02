@@ -6,11 +6,8 @@ _ = require('underscore');
 vimwikiReplace = function (md, options, Token) {
 	var arrayReplaceAt, createTokens, defaults, pattern, splitTextToken;
 	arrayReplaceAt = md.utils.arrayReplaceAt;
-	//lastId = 0;
 	defaults = {
-		divWrap: false,
-		divClass: 'vimwiki',
-		idPrefix: 'vimwiki'
+		suffix: 'wiki'
 	};
 	options = _.extend(defaults, options);
 	pattern = /\[\[([A-Za-z1-9\- ]+)?\|?(\w+)?\]\](.*)/; 
@@ -25,7 +22,7 @@ vimwikiReplace = function (md, options, Token) {
 		} else {
 			urlText = linkUrl;
 		}
-		fullUrl = './' + linkUrl + '.wiki';
+		fullUrl = './' + linkUrl + '.' + options.suffix;
 
 		token         = new Token('link_open', 'a', 1);
 		token.attrs   = [ [ 'href', fullUrl ] ];
