@@ -13,9 +13,9 @@ vimwikiReplace = function (md, options, Token) {
 		idPrefix: 'vimwiki'
 	};
 	options = _.extend(defaults, options);
-	pattern = /\[\[([A-Za-z1-9 ]+)?\|?(\w+)?/;
+	pattern = /\[\[([A-Za-z1-9\- ]+)?\|?(\w+)?\]\](.*)/; 
 
-	createTokens = function (checked, linkUrl, linkText, Token) {
+	createTokens = function (linkUrl, linkText, remainder, Token) {
 		var nodes, token, fullUrl;
 		nodes = [];
 
@@ -45,10 +45,15 @@ vimwikiReplace = function (md, options, Token) {
 		token.info    = 'auto';
 		nodes.push(token);
 
+		token         = new Token('text', '', 0);
+		token.content = remainder;
+		//token.level   = level;
+		nodes.push(token);
+
 		return nodes;
 	};
 	splitTextToken = function (original, Token) {
-		var checked, linkUrl, matches, text, linkText;
+		var linkUrl, matches, text, linkText, remainder;
 		text = original.content;
 
 		matches = text.match(pattern);
@@ -56,10 +61,10 @@ vimwikiReplace = function (md, options, Token) {
 		if (matches === null) {
 			return original;
 		}
-		checked = false;
 		linkUrl = matches[1];
-		linkText = matches[4];
-		return createTokens(checked, linkUrl, linkText, Token);
+		linkText = matches[2];
+		remainder = matches[3];
+		return createTokens(linkUrl, linkText, remainder, Token);
 	};
 	return function (state) {
 		var blockTokens, i, j, l, token, tokens;
