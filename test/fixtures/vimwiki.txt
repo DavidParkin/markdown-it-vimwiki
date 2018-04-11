@@ -1,0 +1,52 @@
+.
+[[Wiki Link]]
+.
+<p><a href="./Wiki Link.wiki">Wiki Link</a></p>
+.
+
+
+.
+[[Help/Wiki Link]]
+.
+<p><a href="./Help/Wiki Link.wiki">Help/Wiki Link</a></p>
+.
+
+
+.
+[[/Main/Wiki Link]]
+.
+<p><a href="./Main/Wiki Link.wiki">/Main/Wiki Link</a></p>
+.
+
+
+.
+Here is a [[Wiki Link]]
+.
+<p>Here is a <a href="./Wiki Link.wiki">Wiki Link</a></p>
+.
+
+
+.
+[[Wiki Link]]s are cool
+.
+<p><a href="./Wiki Link.wiki">Wiki Link</a>s are cool</p>
+.
+
+
+.
+Click [[Wiki Link|here]] to learn about wiki links
+.
+<p>Click <a href="./Wiki Link.wiki">here</a> to learn about wiki links</p>
+.
+
+.
+This is [[not a valid wiki link]
+.
+<p>This is [[not a valid wiki link]</p>
+.
+
+.
+This is [not a valid wiki link]] either
+.
+<p>This is [not a valid wiki link]] either</p>
+.
