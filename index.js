@@ -10,9 +10,9 @@ vimwikiReplace = function (md, options, Token) {
 		suffix: 'wiki'
 	};
 	options = _.extend(defaults, options);
-	pattern = /\[\[([A-Za-z1-9\- ]+)?\|?(\w+)?\]\](.*)/; 
+	pattern = /(.*)\[\[([A-Za-z1-9//_\- ]+)?\|?(\w+)?\]\](.*)/; 
 
-	createTokens = function (linkUrl, linkText, remainder, Token) {
+	createTokens = function (pretext, linkUrl, linkText, remainder, Token) {
 		var nodes, token, fullUrl;
 		nodes = [];
 
@@ -23,6 +23,13 @@ vimwikiReplace = function (md, options, Token) {
 			urlText = linkUrl;
 		}
 		fullUrl = './' + linkUrl + '.' + options.suffix;
+		if (pretext !== '') {
+			token         = new Token('text', '', 0);
+			token.content = pretext;
+			//token.level   = level;
+		nodes.push(token);
+		}
+
 
 		token         = new Token('link_open', 'a', 1);
 		token.attrs   = [ [ 'href', fullUrl ] ];
@@ -50,23 +57,22 @@ vimwikiReplace = function (md, options, Token) {
 		return nodes;
 	};
 	splitTextToken = function (original, Token) {
-		var linkUrl, matches, text, linkText, remainder;
+		var linkUrl, matches, text, linkText, pretext, remainder;
 		text = original.content;
 
 		matches = text.match(pattern);
-		debugger;
 		if (matches === null) {
 			return original;
 		}
-		linkUrl = matches[1];
-		linkText = matches[2];
-		remainder = matches[3];
-		return createTokens(linkUrl, linkText, remainder, Token);
+		pretext = matches[1]
+		linkUrl = matches[2];
+		linkText = matches[3];
+		remainder = matches[4];
+		return createTokens(pretext, linkUrl, linkText, remainder, Token);
 	};
 	return function (state) {
 		var blockTokens, i, j, l, token, tokens;
 		blockTokens = state.tokens;
-		debugger;
 		j = 0;
 		l = blockTokens.length;
 		while (j < l) {
@@ -78,7 +84,7 @@ vimwikiReplace = function (md, options, Token) {
 			i = tokens.length - 1;
 			while (i >= 0) {
 				token = tokens[i];
-				if (token.type != "code_inline") {
+				if (token.type !== 'code_inline') {
 					blockTokens[j].children = tokens = arrayReplaceAt(tokens, i, splitTextToken(token, state.Token));
 				}
 				i--;
