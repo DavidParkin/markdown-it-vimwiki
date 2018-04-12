@@ -43,15 +43,24 @@ package system, module will add itself globally as `window.markdownitVimwiki`.
 ```js
 var md = require('markdown-it')()
             .use(require('markdown-it-vimwiki'),{
-              suffix: 'wiki'
+              suffix: 'html'
             });
+md.render('[[link]]') // =>
+// 
+//  <a href="./link.html">link</a></p>>
+//
+
+md.render('[[link|text]]') // =>
+// 
+//  <a href="./link.html">text</a></p>>
+// 
 
 ```
 
 
 ## License
 
-[MIT License](https://github.com/DavidParkin/markdown-it-vimwiki/blob/master/LICENSE) © 2015 David Parkin
+[MIT License](https://github.com/DavidParkin/markdown-it-vimwiki/blob/master/LICENSE) © 2018 David Parkin
 
 [npm-url]: https://npmjs.org/package/markdown-it-vimwiki
 [npm-image]: https://img.shields.io/npm/v/markdown-it-vimwiki.svg
